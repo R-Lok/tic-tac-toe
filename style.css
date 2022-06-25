@@ -56,7 +56,13 @@ header > span {
 
 }
 
+.game-container > div:hover {
+    background: rgb(215, 248, 255)
+}
+
 .restart-game {
     height: 50px;
     width: 200px;
+    font-weight: bold;
+    border: 2px solid var(--border-color);
 }

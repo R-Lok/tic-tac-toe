@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;700&display=swap');
 
+:root {
+    --border-color: rgb(100, 100, 100);
+}
+
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
 }
 
 header {
@@ -11,11 +17,46 @@ header {
     display: flex;
     align-items: center;
     padding: 0 20px;
-    box-shadow: 0 2px 2px rgb(100, 100, 100);
+    box-shadow: 0 2px 2px var(--border-color);
 }
 
 header > span {
     font-size: 48px;
-    font-family: "Roboto", sans-serif;
     font-weight: bold;
+}
+
+.whos-turn {
+    font-weight: bold;
+    font-size: 32px;
+}
+
+.whos-turn, .restart-btn-container {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+.game-container {
+    display: grid;
+    width: 484px;
+    margin: 0 auto;
+    border: 2px solid var(--border-color);
+    grid-template-areas: '1 2 3'
+                         '4 5 6'
+                         '7 8 9';
+    align-items: center;
+    justify-content: center;
+    grid-template: 160px 160px 160x / 160px 160px 160px;
+}
+
+.game-container > div {
+    border: 1px solid var(--border-color);
+    width: 160px;
+    height: 160px;
+
+}
+
+.restart-game {
+    height: 50px;
+    width: 200px;
 }

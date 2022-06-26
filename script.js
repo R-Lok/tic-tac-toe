@@ -5,8 +5,13 @@ const gameBoard = (function(){
 
     function updateBoardArray(e) {
         let boardSlot = e.target.getAttribute('position')
-        board[boardSlot - 1] = gameController.getWhosTurn()
-        gameController.changeTurn()
+
+        if (board[boardSlot -1] !== "") {
+            alert('Slot already taken!')
+        } else {
+            board[boardSlot - 1] = gameController.getWhosTurn()
+            gameController.changeTurn()
+        }        
     }
 
     return {}

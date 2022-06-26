@@ -1,6 +1,13 @@
 const gameBoard = (function(){
     let board = ["", "", "", "", "", "", "", "", ""]
     const boardSlots = document.querySelectorAll(".boardslot")
+    boardSlots.forEach(node => node.addEventListener('click', updateBoardArray))
+
+    function updateBoardArray(e) {
+        let boardSlot = e.target.getAttribute('position')
+        board[boardSlot - 1] = gameController.getWhosTurn()
+        gameController.changeTurn()
+    }
 
     return {}
 })()
@@ -11,7 +18,7 @@ const gameController = (function() {
     let whosTurn = 'X'
 
     function changeTurn() {
-        if (whosTurn = 'X') {
+        if (whosTurn === 'X') {
             whosTurn = 'O'
         } else {
             whosTurn = 'X'

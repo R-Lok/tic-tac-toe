@@ -25,8 +25,8 @@ const gameBoard = (function(){
 })()
 
 const gameController = (function() {
-    const playerX = player('x')
-    const playerO = player('o')
+    const playerX = player('X')
+    const playerO = player('O')
     let whosTurn = 'X'
 
     function changeTurn() {

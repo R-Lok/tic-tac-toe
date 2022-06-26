@@ -10,8 +10,15 @@ const gameBoard = (function(){
             alert('Slot already taken!')
         } else {
             board[boardSlot - 1] = gameController.getWhosTurn()
+            renderGameboard()
             gameController.changeTurn()
         }        
+    }
+
+    function renderGameboard() {
+        for (i = 0; i < board.length; i++) {
+            boardSlots[i].innerText = board[i]
+        }
     }
 
     return {}

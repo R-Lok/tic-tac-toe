@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto:wght@100;700&display=swap');
 
 :root {
     --border-color: rgb(100, 100, 100);
@@ -53,7 +53,11 @@ header > span {
     border: 1px solid var(--border-color);
     width: 160px;
     height: 160px;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 128px;
+    font-family: "Montserrat", sans-serif
 }
 
 .game-container > div:hover {

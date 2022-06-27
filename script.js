@@ -11,6 +11,8 @@ const gameBoard = (function(){
         } else {
             board[boardSlot - 1] = gameController.getWhosTurn()
             renderGameboard()
+            gameController.updatePlayerPositions(boardSlot)
+            gameController.checkGameOver()
             gameController.changeTurn()
         }        
     }
@@ -20,34 +22,58 @@ const gameBoard = (function(){
             boardSlots[i].innerText = board[i]
         }
     }
-
     return {}
 })()
 
 const gameController = (function() {
     const playerX = player('X')
     const playerO = player('O')
-    let whosTurn = 'X'
+    let whosTurn = playerX
 
     function changeTurn() {
-        if (whosTurn === 'X') {
-            whosTurn = 'O'
+        if (whosTurn === playerX) {
+            whosTurn = playerO
         } else {
-            whosTurn = 'X'
+            whosTurn = playerX
         }
     }
 
     function getWhosTurn() {
-        return whosTurn
+        return whosTurn.sign
     }
 
-    return {changeTurn, getWhosTurn}
+    function updatePlayerPositions(boardslot) {
+        if (whosTurn === playerX) {
+            playerX.positions.push(boardslot)
+        } else {
+            playerO.positions.push(boardslot)
+        }
+    }
+
+    function checkGameOver() {
+        let winConditions = [['1', '2', '3'],
+                             ['4', '5', '6'],
+                             ['7', '8', '9'], 
+                             ['1', '4', '7'], 
+                             ['2', '5', '8'], 
+                             ['3', '6', '9'], 
+                             ['1', '5', '9'], 
+                             ['3', '5', '7']]
+        gameOver = false
+
+        for (i = 0; i < winConditions.length; i++) {
+            if (winConditions[i].every(position => whosTurn.positions.includes(position))) {
+                let gameOver = true
+                break 
+            }
+        }
+        
+    }
+
+    return {changeTurn, getWhosTurn, updatePlayerPositions, checkGameOver}
 })()
 
 function player(sign) {
-    this.sign = sign
-    getSign = () => {
-        return this.sign
-    }
-    return {getSign}
+    let positions = []
+    return {sign, positions}
 }

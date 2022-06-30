@@ -2,6 +2,7 @@ const gameBoard = (function(){
     let board = ["", "", "", "", "", "", "", "", ""]
     const boardSlots = document.querySelectorAll(".boardslot")
     boardSlots.forEach(node => node.addEventListener('click', updateBoardArray))
+    const turnDisplay = document.querySelector(".turn-display")
 
     function updateBoardArray(e) {
         let boardSlot = e.target.getAttribute('position')
@@ -12,8 +13,7 @@ const gameBoard = (function(){
             board[boardSlot - 1] = gameController.getWhosTurn()
             renderGameboard()
             gameController.updatePlayerPositions(boardSlot)
-            gameController.checkGameOver()
-            gameController.changeTurn()
+            endTurn()
         }        
     }
 
@@ -22,6 +22,19 @@ const gameBoard = (function(){
             boardSlots[i].innerText = board[i]
         }
     }
+
+    function endTurn() {
+        if (gameController.checkGameOver() === true) {
+            gameOver()
+        } else {
+            gameController.changeTurn()
+        }
+    }
+
+    function gameOver() {
+        turnDisplay.innerText = `Game over! Player ${gameController.getWhosTurn()} is the winner!`
+    }
+
     return {}
 })()
 
@@ -63,11 +76,11 @@ const gameController = (function() {
 
         for (i = 0; i < winConditions.length; i++) {
             if (winConditions[i].every(position => whosTurn.positions.includes(position))) {
-                let gameOver = true
+                gameOver = true
                 break 
             }
         }
-        
+        return gameOver
     }
 
     return {changeTurn, getWhosTurn, updatePlayerPositions, checkGameOver}

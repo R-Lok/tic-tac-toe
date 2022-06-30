@@ -3,18 +3,25 @@ const gameBoard = (function(){
     const boardSlots = document.querySelectorAll(".boardslot")
     boardSlots.forEach(node => node.addEventListener('click', updateBoardArray))
     const turnDisplay = document.querySelector(".turn-display")
+    const restartBtn = document.querySelector(".restart-game")
+    restartBtn.addEventListener('click', startNewGame)
+    gameBoardActive = true
 
     function updateBoardArray(e) {
         let boardSlot = e.target.getAttribute('position')
-
-        if (board[boardSlot -1] !== "") {
-            alert('Slot already taken!')
+        if (gameBoardActive === true) {
+            if (board[boardSlot -1] !== "") {
+                alert('Slot already taken!')
+            } else {
+                board[boardSlot - 1] = gameController.getWhosTurn()
+                renderGameboard()
+                gameController.updatePlayerPositions(boardSlot)
+                endTurn()
+            }      
         } else {
-            board[boardSlot - 1] = gameController.getWhosTurn()
-            renderGameboard()
-            gameController.updatePlayerPositions(boardSlot)
-            endTurn()
-        }        
+            return
+        }
+          
     }
 
     function renderGameboard() {
@@ -33,14 +40,26 @@ const gameBoard = (function(){
 
     function gameOver() {
         turnDisplay.innerText = `Game over! Player ${gameController.getWhosTurn()} is the winner!`
+        gameBoardActive = false
+    }
+
+    function startNewGame(){
+        clearBoard()
+        gameController.resetGame()
+        gameBoardActive = true
+    }
+
+    function clearBoard() {
+        boardSlots.forEach(node => node.innerText = "")
+        board = board.map(slot => slot = "")
     }
 
     return {}
 })()
 
 const gameController = (function() {
-    const playerX = player('X')
-    const playerO = player('O')
+    let playerX = player('X')
+    let playerO = player('O')
     let whosTurn = playerX
 
     function changeTurn() {
@@ -83,7 +102,17 @@ const gameController = (function() {
         return gameOver
     }
 
-    return {changeTurn, getWhosTurn, updatePlayerPositions, checkGameOver}
+    function resetPlayers() {
+        playerX = player('X')
+        playerO = player('O')
+    }
+
+    function resetGame() {
+        resetPlayers()
+        changeTurn()
+    }
+
+    return {changeTurn, getWhosTurn, updatePlayerPositions, checkGameOver, resetGame}
 })()
 
 function player(sign) {

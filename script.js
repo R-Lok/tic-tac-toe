@@ -1,3 +1,7 @@
+// Make sure display restart to player turn when restart btn pressed after game over
+// add tie game over detection (all board slots filled)
+// add turndisplay change for when game ends in tie
+
 const gameBoard = (function(){
     let board = ["", "", "", "", "", "", "", "", ""]
     const boardSlots = document.querySelectorAll(".boardslot")
@@ -54,7 +58,7 @@ const gameBoard = (function(){
         board = board.map(slot => slot = "")
     }
 
-    return {}
+    return {turnDisplay}
 })()
 
 const gameController = (function() {
@@ -68,6 +72,7 @@ const gameController = (function() {
         } else {
             whosTurn = playerX
         }
+        gameBoard.turnDisplay.innerText = `Player ${whosTurn.sign}'s turn`
     }
 
     function getWhosTurn() {

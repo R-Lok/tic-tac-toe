@@ -65,6 +65,7 @@ const gameController = (function() {
     let playerX = player('X')
     let playerO = player('O')
     let whosTurn = playerX
+    gameBoard.turnDisplay.innerText = `Player ${whosTurn.sign}'s turn`
 
     function changeTurn() {
         if (whosTurn === playerX) {

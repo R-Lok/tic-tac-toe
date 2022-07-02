@@ -108,13 +108,13 @@ const gameController = (function() {
         return gameOver
     }
 
-    function resetPlayers() {
-        playerX = player('X')
-        playerO = player('O')
+    function resetPlayerPositions() {
+        playerX.positions = playerX.positions.map(position => position = "")
+        playerO.positions = playerO.positions.map(position => position = "")
     }
 
     function resetGame() {
-        resetPlayers()
+        resetPlayerPositions()
         changeTurn()
     }
 

@@ -1,7 +1,3 @@
-// Make sure display restart to player turn when restart btn pressed after game over
-// add tie game over detection (all board slots filled)
-// add turndisplay change for when game ends in tie
-
 const gameBoard = (function(){
     let board = ["", "", "", "", "", "", "", "", ""]
     const boardSlots = document.querySelectorAll(".boardslot")
@@ -36,14 +32,23 @@ const gameBoard = (function(){
 
     function endTurn() {
         if (gameController.checkGameOver() === true) {
-            gameOver()
+            gameOver("win")
+        } else if (gameController.checkGameTie() === true) {
+            gameOver("tie")
         } else {
             gameController.changeTurn()
         }
     }
 
-    function gameOver() {
-        turnDisplay.innerText = `Game over! Player ${gameController.getWhosTurn()} is the winner!`
+    function gameOver(gameOverCondition) {
+        if (gameOverCondition === "win") {
+            turnDisplay.innerText = `Game over! Player ${gameController.getWhosTurn()} is the winner!`
+        }
+
+        if (gameOverCondition === "tie") {
+            turnDisplay.innerText = `Game tie!`
+        }
+
         gameBoardActive = false
     }
 
@@ -58,7 +63,11 @@ const gameBoard = (function(){
         board = board.map(slot => slot = "")
     }
 
-    return {turnDisplay}
+    function getBoardStatus() {
+        return board
+    }
+
+    return {turnDisplay, getBoardStatus}
 })()
 
 const gameController = (function() {
@@ -108,6 +117,15 @@ const gameController = (function() {
         return gameOver
     }
 
+    function checkGameTie() {
+        let gameTie
+        let gameBoardStatus = gameBoard.getBoardStatus()
+        if (gameBoardStatus.find(position => position === "") === undefined) {
+            gameTie = true
+        }
+        return gameTie
+    }
+
     function resetPlayerPositions() {
         playerX.positions = playerX.positions.map(position => position = "")
         playerO.positions = playerO.positions.map(position => position = "")
@@ -118,7 +136,7 @@ const gameController = (function() {
         changeTurn()
     }
 
-    return {changeTurn, getWhosTurn, updatePlayerPositions, checkGameOver, resetGame}
+    return {changeTurn, getWhosTurn, updatePlayerPositions, checkGameOver, checkGameTie, resetGame}
 })()
 
 function player(sign) {
